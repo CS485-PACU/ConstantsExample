@@ -8,6 +8,12 @@
 //***************************************************************************
 #include "ExampleClass.h"
 
+// Don't use global constants!
+// const std::string CTOR_NAME = "ctor";
+
+// initialize static constants that are part of the class
+const std::string ExampleClass::CTOR_NAME = "ctor";
+
 //***************************************************************************
 // Constructor: Default Constructor
 //
@@ -18,11 +24,13 @@
 //
 // Returned:    None
 //***************************************************************************
-ExampleClass::ExampleClass () : mKey(-1), mSecretData("unknown")
+ExampleClass::ExampleClass () : mKey(-1), mSecretData("unknown"), CTOR_MSGS(true)
 {
+  // set constant after : above
+
   if (CTOR_MSGS)
   {
-    std::cout << "ctor " << *this << std::endl;
+    std::cout << CTOR_NAME << *this << std::endl;
   }
 }
 
@@ -37,12 +45,12 @@ ExampleClass::ExampleClass () : mKey(-1), mSecretData("unknown")
 //
 // Returned:    None
 //***************************************************************************
-ExampleClass::ExampleClass (int key, std::string secretData) :
-  mKey(key), mSecretData(secretData)
+ExampleClass::ExampleClass (int key, std::string secretData, bool bMsg) :
+  mKey(key), mSecretData(secretData), CTOR_MSGS(bMsg)
 {
   if (CTOR_MSGS)
   {
-    std::cout << "ctor() " << *this << std::endl;
+    std::cout << CTOR_NAME +"(int, std::string, bool = true)" << *this << std::endl;
   }
 }
 
@@ -57,11 +65,11 @@ ExampleClass::ExampleClass (int key, std::string secretData) :
 // Returned:    None
 //***************************************************************************
 ExampleClass::ExampleClass (const ExampleClass &rcData) :
-  mKey (rcData.mKey), mSecretData (rcData.mSecretData)
+  mKey (rcData.mKey), mSecretData (rcData.mSecretData), CTOR_MSGS(rcData.CTOR_MSGS)
 {
   if (CTOR_MSGS)
   {
-    std::cout << "cctor " << *this << std::endl;
+    std::cout << "c" + CTOR_NAME << *this << std::endl;
   }
 }
 
@@ -95,6 +103,7 @@ ExampleClass & ExampleClass::operator=(ExampleClass cData)
 {
   std::swap (this->mKey, cData.mKey);
   std::swap (this->mSecretData, cData.mSecretData);
+
 
   return *this;
 }
@@ -182,6 +191,9 @@ bool ExampleClass::operator<=(const ExampleClass &rcData) const
 //***************************************************************************
 std::ostream& operator<<(std::ostream &rcOut, const ExampleClass &rcData)
 {
-  rcOut << rcData.mKey << ":" << rcData.mSecretData;
+  // local constant only used in this function
+  const std::string SEPERATOR = ":";
+
+  rcOut << rcData.mKey << SEPERATOR << rcData.mSecretData;
   return rcOut;
 }

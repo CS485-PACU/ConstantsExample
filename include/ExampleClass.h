@@ -17,7 +17,7 @@ class ExampleClass
 public:
 
   ExampleClass ();
-  ExampleClass (int key, std::string secretData);
+  ExampleClass (int key, std::string secretData, bool bMsg = true);
   ExampleClass (const ExampleClass &rcData);
   ~ExampleClass ();
 
@@ -37,5 +37,21 @@ public:
 private:
   int mKey;
   std::string mSecretData;
-  static const bool CTOR_MSGS = false;
+
+  // constant used in many functions
+  // private because no outside classes
+  // need to use this
+  //
+  // set per object in the ctor
+  const bool CTOR_MSGS;
+
+  // constant used in many functions
+  // private because no outside classes
+  // need to use this
+  // static because we want to set this
+  // for ALL OBJECTS of this class
+  //
+  // must initialize in ExampleClass.cpp
+  // if this is not an integral or enumeration type
+  static const std::string CTOR_NAME;
 };
