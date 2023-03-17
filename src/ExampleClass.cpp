@@ -193,7 +193,25 @@ std::ostream& operator<<(std::ostream &rcOut, const ExampleClass &rcData)
 {
   // local constant only used in this function
   const std::string SEPERATOR = ":";
+  const int EVEN_STEP = 2;
 
-  rcOut << rcData.mKey << SEPERATOR << rcData.mSecretData;
+  rcOut << rcData.mKey << SEPERATOR ;
+
+  // no constants necessary for
+  // 0
+  // -1
+  // or 1
+  for (int index = 0; index <= rcData.mSecretData.length() - 1; index += 1)
+  {
+    rcOut << rcData.mSecretData.at(index);
+  }
+
+  // make the constant EVEN_STEP so the reader will very 
+  // clearly know why I am incrementing by 2
+  for (int index = 0; index < rcData.mSecretData.length(); index += EVEN_STEP)
+  {
+    rcOut << rcData.mSecretData.at(index);
+  }
+
   return rcOut;
 }
